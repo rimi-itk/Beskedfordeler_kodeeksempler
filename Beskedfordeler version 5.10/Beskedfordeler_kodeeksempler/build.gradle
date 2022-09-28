@@ -1,0 +1,184 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+version = '1.1-SNAPSHOT'
+group = 'dk.kombit.samples'
+
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    compile 'com.rabbitmq:amqp-client:2.8.4',
+            'javax.ws.rs:javax.ws.rs-api:2.0.1'
+    compile name: 'sts-interface-2.2-SNAPSHOT'
+    compile name: 'sts-bf-soap-1.0-SNAPSHOT'
+    compile name: 'sts-commons-safewhere-1.0-SNAPSHOT'
+    compile name: 'sts-commons-xjb-2.0-SNAPSHOT'
+
+    compile( ['org.apache.cxf:cxf-core:3.1.4',
+              'org.apache.cxf:cxf-rt-frontend-jaxrs:3.1.4',
+              'org.apache.cxf:cxf-rt-rs-client:3.1.4',
+              'org.apache.cxf:cxf-rt-transports-http:3.1.4'
+    ])
+    compile 'org.easytesting:fest-assert-core:2.0M10'
+    compile 'org.apache.httpcomponents:httpclient:4.5.1'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.2'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.4.2'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.4.2'
+    compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.4.2'
+    compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.4.2'
+    compile 'com.beust:jcommander:1.48'
+    compile 'ch.qos.logback:logback-classic:1.1.7'
+}
+
+task( afsendbesked, dependsOn: jar, type: JavaExec, description: 'Run afsendbesked sample program'  ) {
+    main = 'dk.kombit.samples.beskedfordeler.amqp.AfsendBesked'
+    classpath = sourceSets.main.runtimeClasspath
+
+    /* Can pass all the properties: */
+    systemProperties System.getProperties()
+
+    /* Need to split the space-delimited value in the exec.args */
+    if ( System.getProperty("exec.args") ) {
+        args System.getProperty("exec.args").split()
+    }
+}
+
+task( afhentbesked, dependsOn: jar, type: JavaExec, description: 'Run afhentbesked sample program' ) {
+    main = 'dk.kombit.samples.beskedfordeler.amqp.AfhentBesked'
+    classpath = sourceSets.main.runtimeClasspath
+
+    /* Can pass all the properties: */
+    systemProperties System.getProperties()
+
+    /* Need to split the space-delimited value in the exec.args */
+    if ( System.getProperty("exec.args") ) {
+        args System.getProperty("exec.args").split()
+    }
+}
+
+task afsendjar (type: Jar, description: 'Build afsendbesked as a standalone JAR executable') {
+    println 'Building afsend jar'
+    dependsOn compileJava
+
+    doFirst {
+        def cxfDir = file("$buildDir/META-INF/cxf")
+        cxfDir.deleteDir()
+        cxfDir.mkdirs()
+
+        configurations.compile.collect {
+            zipTree(it).
+                    matching { include 'META-INF/cxf/bus-extensions.txt' }.
+                    each { f -> new File(cxfDir, 'bus-extensions.txt') << f.getText("UTF-8") }
+        }
+    }
+
+    manifest {
+        attributes(
+                "Main-Class": 'dk.kombit.samples.beskedfordeler.amqp.AfsendBesked',
+                "Implementation-Version": version,
+                "Assembly-Date": new java.util.Date().toString()
+        )
+    }
+    from fileTree(buildDir).matching{ include 'META-INF/cxf/bus-extensions.txt' }
+
+    from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }){
+        exclude 'META-INF/cxf/bus-extensions.txt'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+    }
+
+    from sourceSets.main.output
+
+    archiveName = "afsendbesked-client-${version}.jar"
+    destinationDir = file("${buildDir}/jars")
+}
+
+task afhentjar (type: Jar, description: 'Build afhentbesked as a standalone JAR executable') {
+    println 'Building afhent jar'
+    dependsOn compileJava
+
+    doFirst {
+        def cxfDir = file("$buildDir/META-INF/cxf")
+        cxfDir.deleteDir()
+        cxfDir.mkdirs()
+
+        configurations.compile.collect {
+            zipTree(it).
+                    matching { include 'META-INF/cxf/bus-extensions.txt' }.
+                    each { f -> new File(cxfDir, 'bus-extensions.txt') << f.getText("UTF-8") }
+        }
+    }
+
+    manifest {
+        attributes(
+                "Main-Class": 'dk.kombit.samples.beskedfordeler.amqp.AfhentBesked',
+                "Implementation-Version": version,
+                "Assembly-Date": new java.util.Date().toString()
+        )
+    }
+    from fileTree(buildDir).matching{ include 'META-INF/cxf/bus-extensions.txt' }
+
+    from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }){
+        exclude 'META-INF/cxf/bus-extensions.txt'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+    }
+    from sourceSets.main.output
+
+    archiveName = "afhentbesked-client-${version}.jar"
+    destinationDir = file("${buildDir}/jars")
+
+}
+
+task dist_beskedfordeler(type:Zip, dependsOn: build) {
+    println 'Including resources'
+    baseName 'beskedfordeler-samples'
+
+    from('libs/') {
+        include 'sts-bf-interface-*.jar'
+        into('libs')
+    }
+
+    from('distrib/') {
+        include '*.war'
+    }
+
+    from('src/main/resources') {
+        include '*'
+        include 'beskeder/*'
+        include 'token/*trust*'
+        into('src/main/resources')
+    }
+    from('src/main/java') {
+        include 'dk/kombit/samples/beskedfordeler/**/*.java'
+        include 'dk/kombit/samples/*.java'
+        into('src/main/java')
+    }
+
+    from {
+        configurations.compile
+    } {
+        include 'amqp-client*'
+        include 'javax.ws.rs*'
+    }
+}
+
+task dist_all(description: 'Full distribution including JAR executables') {
+    tasks.dist_beskedfordeler.execute()
+    tasks.compileJava.execute()
+    tasks.afsendjar.execute()
+    tasks.afhentjar.execute()
+}
+
+

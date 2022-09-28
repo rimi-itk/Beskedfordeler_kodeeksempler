@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:Haendelsesbesked xmlns="urn:oio:sagdok:3.0.0"
+					  xmlns:ns2="urn:oio:besked:kuvert:1.0"
+					  xmlns:ns3="http://www.w3.org/2000/09/xmldsig#"
+					  xmlns:ns4="urn:oio:sts:1.0.0">
+	<ns2:BeskedId>
+		<!-- Afsenders identifikation af denne besked -->
+		<UUIDIdentifikator>01157488-c45c-4fd2-b076-1de12effbf66</UUIDIdentifikator>
+	</ns2:BeskedId>
+	<ns2:BeskedVersion>1.0</ns2:BeskedVersion>
+	<ns2:Beskedkuvert>
+		<ns2:Filtreringsdata>
+			<ns2:Beskedtype>
+				<!-- "Test/TestbeskedType3" -->
+				<UUIDIdentifikator>b677c97e-aa5e-430e-9f60-9bbbbdb4ea1b</UUIDIdentifikator>
+			</ns2:Beskedtype>
+			<ns2:BeskedAnsvarligAktoer>
+				<!-- test -->
+				<UUIDIdentifikator>1</UUIDIdentifikator>
+			</ns2:BeskedAnsvarligAktoer>
+			<ns2:TilladtModtager>
+				<!-- Århus Kommunes ID -->
+				<URNIdentifikator>urn:oio:cvr-nr:55133018</URNIdentifikator>
+			</ns2:TilladtModtager>
+			<ns2:RelateretObjekt>
+				<ns2:ObjektId>
+					<!-- CPR nummer GUID format -->
+					<URNIdentifikator>urn:oio:cpr-nr:2512484916</URNIdentifikator>
+				</ns2:ObjektId>
+				<ns2:ObjektType>
+					<!-- Person forretningobjektet fra klassifikationen "forretningsobjekter" -->
+					<UUIDIdentifikator>ce7fcf97-a8a2-447a-8690-d38aa0f6e23c</UUIDIdentifikator>
+				</ns2:ObjektType>
+			</ns2:RelateretObjekt>
+			<ns2:ObjektRegistrering>
+				<ns2:ObjektRegistreringId>
+					<!-- UUID for denne hændelse -->
+					<UUIDIdentifikator>aa1b94ce-d182-454f-baa6-b2febb457aa3</UUIDIdentifikator>
+				</ns2:ObjektRegistreringId>
+				<ns2:RegistreringsAktoer>
+					<!-- Serviceplatformen -->
+					<UUIDIdentifikator>D92BB9C2-D826-4028-8FB5-D8B88B4377D4</UUIDIdentifikator>
+				</ns2:RegistreringsAktoer>
+				<ns2:Registreringstidspunkt>
+					<!-- Tidspunkt for hændelsens udsendelse fra kilden -->
+					<TidsstempelDatoTid>2016-08-13T08:00:00</TidsstempelDatoTid>
+				</ns2:Registreringstidspunkt>
+				<ns2:ObjektAnsvarligMyndighed>
+					<!-- Århus Kommunes ID -->
+					<URNIdentifikator>urn:oio:cvr-nr:55133018</URNIdentifikator>
+				</ns2:ObjektAnsvarligMyndighed>
+				<ns2:ObjektId>
+					<!-- CPR nummer GUID format -->
+					<URNIdentifikator>urn:oio:cpr-nr:2204151234</URNIdentifikator>
+				</ns2:ObjektId>
+				<ns2:ObjektType>
+					<!-- Person forretningobjektet fra klassifikationen "forretningsobjekter" -->
+					<UUIDIdentifikator>ce7fcf97-a8a2-447a-8690-d38aa0f6e23c</UUIDIdentifikator>
+				</ns2:ObjektType>
+				<ns2:ObjektHandling>
+					<!-- Fødsel handlingen fra klassifikationen af "handlinger på forretningsobjekter 
+						af typen Person" -->
+					<UUIDIdentifikator>1e5bb089-5445-44f8-9b65-bc854053f423</UUIDIdentifikator>
+				</ns2:ObjektHandling>
+				<ns2:OpgaveEmne>
+					<!-- Fiktivt emne -->
+					<URNIdentifikator>urn:oio:kle:32.01.01</URNIdentifikator>
+				</ns2:OpgaveEmne>
+			</ns2:ObjektRegistrering>
+		</ns2:Filtreringsdata>
+		<ns2:Leveranceinformation>
+			<ns2:Dannelsestidspunkt>
+				<!-- Tidspunkt for beskedens opståen -->
+				<TidsstempelDatoTid>2016-08-15T08:00:00</TidsstempelDatoTid>
+			</ns2:Dannelsestidspunkt>
+			<ns2:Sikkerhedsklassificering>
+				<!-- Fortrolige personoplysninger fra klassifikationen "sikkerhedsklassificeringer" -->
+				<UUIDIdentifikator>44f4108b-26d4-46de-a90f-35e35b55b8d8</UUIDIdentifikator>
+			</ns2:Sikkerhedsklassificering>
+		</ns2:Leveranceinformation>
+		<ns2:GyldighedFra>
+			<!-- Tidspunkt hvor hændelsen opstod -->
+			<TidsstempelDatoTid>2016-08-15T08:00:10</TidsstempelDatoTid>
+		</ns2:GyldighedFra>
+	</ns2:Beskedkuvert>
+	<ns2:Beskeddata>
+	</ns2:Beskeddata>
+</ns2:Haendelsesbesked>
