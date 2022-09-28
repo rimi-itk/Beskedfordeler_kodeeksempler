@@ -20,9 +20,6 @@ https://gradle.org/releases/#release-2-a
 curl --location https://services.gradle.org/distributions/gradle-4.6-bin.zip > gradle-4.6-bin.zip
 unzip gradle-4.6-bin.zip
 
-# Add gradle and jdk8 to PATH (cf. brew info openjdk@8)
-export PATH="/usr/local/opt/openjdk@8/bin:$PWD/gradle-4.6/bin:$PATH"
-
 brew install dos2unix
 cd 'Beskedfordeler version 5.10/Beskedfordeler_kodeeksempler/'
 dos2unix ./gradlew
@@ -31,6 +28,8 @@ dos2unix ./gradlew
 Compiling and running
 
 ```sh
+# Add gradle and jdk8 to PATH (cf. brew info openjdk@8)
+export PATH="/usr/local/opt/openjdk@8/bin:$PWD/gradle-4.6/bin:$PATH"
 cd 'Beskedfordeler version 5.10/Beskedfordeler_kodeeksempler/'
 sh ./gradlew afhentbesked --console=plain
 ```
