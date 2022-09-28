@@ -55,8 +55,6 @@ import dk.kombit.samples.SamplesHelper;
 import dk.kombit.samples.TokenManager;
 import dk.kombit.samples.beskedfordeler.SimpelPersistering;
 
-import static javafx.application.Platform.exit;
-
 /**
  * Sample class illustrating how to obtain a security token and send a message to distribution by Beskedfordeler.
  * You must set up the {@link SamplesHelper} class with keystore and truststore, CVR numbers, certificates
